@@ -1,0 +1,37 @@
+.navbar-light .navbar-brand {
+  font-family: "Oregano", cursive !important;
+  color: red;
+  font-weight: 900;
+  font-size: 2em;
+}
+
+.grey-box {
+  float: left;
+  margin: 2px;
+  width: 200px;
+  height: 200px;
+}
+
+#cart-thumb img {
+  height: 100px;
+}
+
+.cart {
+  margin-top: 130px;
+  font-size: 400px;
+  color: lightskyblue;
+}
+
+#book-container {
+  position: absolute;
+}
+
+#cart-stuff {
+  position: absolute;
+  top: 215px;
+  left: 510px;
+}
+
+.sale-badge {
+  margin-bottom: 5px;
+}
