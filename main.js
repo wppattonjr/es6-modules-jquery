@@ -142,6 +142,8 @@ const makeStore = (array, titles = false) => {
     // adding a dynmic click event to each "Add To Cart" button on the DOM
     // it is passing the ARRAY argument and the INDEX argument to the function so that they can be used later. 
     addToCart(array, index);
+
+    // TODO: REMOVED THE addToCartEvent function and updated addToCart()
   });
 };
 // TODO: Add empty store DOM function
