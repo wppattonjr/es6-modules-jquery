@@ -1,9 +1,30 @@
-// TODO: Connect Search
-// TODO: Update getter/setter functions
-// TODO: cartTotal, chargeIt, update cart total with cartTotal
+const tableOfContents = () => {
+// *********** TOC ********* //
+// 1. VARIABLES
+    // Book Info Object 
+    // Cart Array definition 
+// 2. ARRAY METHODS
+    // featured books filter method
+    // titles map method 
+// 3. DOM FUNCTIONS
+    // makeStore function accepts 2 arguments (array, titles = false)
+    // makeCart function create/updates the cart
+    // TODO: Add empty store DOM function
+// 4. EVENTS
+    // Navigation events
+    // Add to cart event: addToCartEvent accepts 2 arguments (array, index)
+// 5. CART FUNCTIONS
+    // addToCart function accepts 2 arguments (array, index)
+    //TODO: cartTotal
+    //TODO: setCart
+    // getCart returns cart array
+// 6. CHECKOUT FUNCTIONS
+    // TODO: chargeIt function
+// *********** END TOC ********* //
+}
 
-
-// DATA OBJECT FOR APP
+// 1. *********** VARIABLES ********* //
+// data array for books
 const bookInfo = [
   {
     price: 25.99,
@@ -46,24 +67,7 @@ const bookInfo = [
 // ARRAY FOR ADDING ITEMS TO THE CART
 const cart = [];
 
-// NAVIGATION EVENTS
-const navigationEvents = () => {
-  $("#all-books").on("click", () => {
-    makeStore(bookInfo);
-  });
-
-  $("#featured-books").on("click", () => {
-    makeStore(featured);
-  });
-
-  $("#titles").on("click", () => {
-    makeStore(titles, true)
-  });
-
-  //TODO: Add search functionality
-};
-
-// *********** ARRAY METHODS ********* //
+// 2. *********** ARRAY METHODS ********* //
 // featured books
 // creates a new array without modifying existing array
 const featured = bookInfo.filter((book) => {
@@ -76,8 +80,7 @@ const titles = bookInfo.map((book) => {
   return { title: book.title, price: book.price};
 })
 
-
-// ****** DOM FUNCTIONS ******** //
+// 3. ****** DOM FUNCTIONS ******** //
 // create/modify the store (reuseable function)
 const makeStore = (array, titles = false) => {
   // Clear the DOM each time this function is run
@@ -132,7 +135,7 @@ const makeStore = (array, titles = false) => {
 };
 
 // TODO: Walk through breaking this function from the setter
-// create/modify the cart
+// create/updates the cart
 const makeCart = () => {
   $("#cart").html(` 
     <div class="modal fade" id="buy-modal" tabindex="-1" role="dialog" aria-labelledby="buy-modalLabel" aria-hidden="true">
@@ -167,7 +170,35 @@ const makeCart = () => {
           <button class="btn btn-danger" data-toggle="modal" data-target="#buy-modal" id="checkout">Checkout</button>
       </div>`
     );
+
+    //TODO: ADD EVENT LISTENER To modal "Charge It" button AFTER BUTTON IS ON THE DOM
 }
+
+// TODO: Add empty store DOM function
+
+// 4. ****** EVENTS ******** //
+const navigationEvents = () => {
+
+  // "All Books" link in nav click event
+  $("#all-books").on("click", () => {
+    makeStore(bookInfo);
+  });
+
+  // "Featured Books" link in nav click event
+  $("#featured-books").on("click", () => {
+    makeStore(featured);
+  });
+
+  // "List of Titles" link in nav click event
+  $("#titles").on("click", () => {
+    makeStore(titles, true)
+  });
+
+  //TODO: Add search functionality
+  // as the user types, searches through array of objects
+  // returns the items that match
+  // if no matches, clear DOM and provide a message that reads "No Items"
+};
 
 const addToCartEvent = (array, index) => {
   // getting the specific dynamically set ID on the button
@@ -181,6 +212,7 @@ const addToCartEvent = (array, index) => {
   })
 }
 
+// 5. ****** CART FUNCTIONS ******** //
 // Add the item to the cart array AND update the DOM cart 
 const addToCart = (array, index) => {
 
@@ -191,11 +223,17 @@ const addToCart = (array, index) => {
   makeCart();
 }
 
+//TODO: add cartTotal function
+//TODO: add setCart function
+
+
 // GETTER function for getting the cart array
 const getCart = () => {
   return cart;
 }
 
+// 6.  ****** CHECKOUT FUNCTIONS ****** //
+// TODO: chargeIt function
 
 
 
