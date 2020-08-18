@@ -1,29 +1,28 @@
 const tableOfContents = () => {
 // *********** TOC ********* //
-// 1. VARIABLES
+// 1. BOOK DATA
     // Book Info Object 
-    // Cart Array definition 
-// 2. ARRAY METHODS
     // featured books filter method
     // titles map method 
-// 3. DOM FUNCTIONS
+// 2. CART DATA
+    // Cart array 
+    // getCart returns cart array
+    //TODO: setCart 
+    //TODO: emptyCart
+// 3. COMPONENTS
+  // STORE
     // makeStore function accepts 2 arguments (array, titles = false)
-    // makeCart function create/updates the cart
-    // TODO: Add empty store DOM function
-// 4. EVENTS
-    // Navigation events
-    // Add to cart event: addToCartEvent accepts 2 arguments (array, index)
-// 5. CART FUNCTIONS
+    //TODO: Add empty store DOM function
+  // CART
     // addToCart function accepts 2 arguments (array, index)
     //TODO: cartTotal
-    //TODO: setCart
-    // getCart returns cart array
-// 6. CHECKOUT FUNCTIONS
-    // TODO: chargeIt function
-// *********** END TOC ********* //
+    //TODO: chargeIt function
+    // makeCart function create/updates the cart
+  // NAVIGATION
+    // Navigation events
 }
 
-// 1. *********** VARIABLES ********* //
+// 1. *********** BOOK DATA ********* //
 // data array for books
 const bookInfo = [
   {
@@ -64,10 +63,6 @@ const bookInfo = [
   },
 ];
 
-// ARRAY FOR ADDING ITEMS TO THE CART
-const cart = [];
-
-// 2. *********** ARRAY METHODS ********* //
 // featured books
 // creates a new array without modifying existing array
 const featured = bookInfo.filter((book) => {
@@ -80,7 +75,23 @@ const titles = bookInfo.map((book) => {
   return { title: book.title, price: book.price};
 })
 
-// 3. ****** DOM FUNCTIONS ******** //
+// 2. *********** CART DATA ********* //
+// ARRAY FOR ADDING ITEMS TO THE CART
+const cart = [];
+
+//TODO: add setCart function
+
+// GETTER function for getting the cart array
+const getCart = () => {
+  return cart;
+}
+
+//TODO: add emptyCart function
+
+
+// 3. ****** COMPONENTS ******** //
+
+// FIXME: STORE
 // create/modify the store (reuseable function)
 const makeStore = (array, titles = false) => {
   // Clear the DOM each time this function is run
@@ -130,10 +141,13 @@ const makeStore = (array, titles = false) => {
 
     // adding a dynmic click event to each "Add To Cart" button on the DOM
     // it is passing the ARRAY argument and the INDEX argument to the function so that they can be used later. 
-    addToCartEvent(array, index);
+    addToCart(array, index);
   });
 };
+// TODO: Add empty store DOM function
 
+
+// FIXME: CART
 // TODO: Walk through breaking this function from the setter
 // create/updates the cart
 const makeCart = () => {
@@ -173,10 +187,27 @@ const makeCart = () => {
 
     //TODO: ADD EVENT LISTENER To modal "Charge It" button AFTER BUTTON IS ON THE DOM
 }
+// Add the item to the cart array AND update the DOM cart 
+const addToCart = (array, index) => {
+  // getting the specific dynamically set ID on the button
+  const cartButton = $(`#cart-add-${index}`);
 
-// TODO: Add empty store DOM function
+  // adding an click event listener to the button above
+  cartButton.on('click', () => {
 
-// 4. ****** EVENTS ******** //
+    // passing the arguments to add to cart so that they can be used in the function that adds the item to the cart array and build the DOM element
+    //TODO: Update this to use a setter function
+    cart.push(array[index]);
+  })
+
+  // refresh the cart on the addition of a new item
+  makeCart();
+}
+
+//TODO: add cartTotal function
+//TODO: chargeIt function
+
+// NAVIGATION
 const navigationEvents = () => {
 
   // "All Books" link in nav click event
@@ -199,42 +230,6 @@ const navigationEvents = () => {
   // returns the items that match
   // if no matches, clear DOM and provide a message that reads "No Items"
 };
-
-const addToCartEvent = (array, index) => {
-  // getting the specific dynamically set ID on the button
-  const cartButton = $(`#cart-add-${index}`);
-
-  // adding an click event listener to the button above
-  cartButton.on('click', () => {
-
-    // passing the arguments to add to cart so that they can be used in the function that adds the item to the cart array and build the DOM element
-    addToCart(array, index)
-  })
-}
-
-// 5. ****** CART FUNCTIONS ******** //
-// Add the item to the cart array AND update the DOM cart 
-const addToCart = (array, index) => {
-
-  //TODO: Update this to use a setter function
-  cart.push(array[index]);
-
-  // refresh the cart on the addition of a new item
-  makeCart();
-}
-
-//TODO: add cartTotal function
-//TODO: add setCart function
-
-
-// GETTER function for getting the cart array
-const getCart = () => {
-  return cart;
-}
-
-// 6.  ****** CHECKOUT FUNCTIONS ****** //
-// TODO: chargeIt function
-
 
 
 // Start the program
