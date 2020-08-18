@@ -3,7 +3,7 @@
 // TODO: cartTotal, chargeIt, update cart total with cartTotal
 
 
-
+// DATA OBJECT FOR APP
 const bookInfo = [
   {
     price: 25.99,
@@ -43,6 +43,7 @@ const bookInfo = [
   },
 ];
 
+// ARRAY FOR ADDING ITEMS TO THE CART
 const cart = [];
 
 // NAVIGATION EVENTS
@@ -58,6 +59,8 @@ const navigationEvents = () => {
   $("#titles").on("click", () => {
     makeStore(titles, true)
   });
+
+  //TODO: Add search functionality
 };
 
 // *********** ARRAY METHODS ********* //
