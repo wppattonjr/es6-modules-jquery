@@ -3,7 +3,12 @@
   color: red;
   font-weight: 900;
   font-size: 2em;
-} 
+}
+
+.cart-items {
+  height: 300px;
+  overflow: scroll;
+}
 
 .grey-box {
   float: left;

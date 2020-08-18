@@ -189,19 +189,19 @@ const makeCart = () => {
 }
 // Add the item to the cart array AND update the DOM cart 
 const addToCart = (array, index) => {
+  
   // getting the specific dynamically set ID on the button
   const cartButton = $(`#cart-add-${index}`);
 
   // adding an click event listener to the button above
   cartButton.on('click', () => {
-
+    console.log("clicked")
     // passing the arguments to add to cart so that they can be used in the function that adds the item to the cart array and build the DOM element
     //TODO: Update this to use a setter function
     cart.push(array[index]);
+    // refresh the cart on the addition of a new item
+    makeCart();
   })
-
-  // refresh the cart on the addition of a new item
-  makeCart();
 }
 
 //TODO: add cartTotal function
