@@ -169,7 +169,7 @@ const showCartItems = () => {
       `<tr>
         <td>${title}</td>
         <td>${obj[title].quantity}</td>
-        <td>${obj[title].price.toFixed(2)}</td>
+        <td>$${obj[title].price.toFixed(2)}</td>
       </tr>`
     )
   })
