@@ -1,29 +1,4 @@
-const tableOfContents = () => {
-// *********** TOC ********* //
-// 1. BOOK DATA
-    // Book Info Object 
-    // featured books filter method
-    // titles map method 
-// 2. CART DATA
-    // Cart array 
-    // getCart returns cart array
-    //TODO: setCart 
-    //TODO: emptyCart
-// 3. COMPONENTS
-  // STORE
-    // makeStore function accepts 2 arguments (array, titles = false)
-    //TODO: Add empty store DOM function
-  // CART
-    // addToCart function accepts 2 arguments (array, index)
-    //TODO: cartTotal
-    //TODO: chargeIt function
-    // makeCart function create/updates the cart
-  // NAVIGATION
-    // Navigation events
-}
 
-// 1. *********** BOOK DATA ********* //
-// data array for books
 const bookInfo = [
   {
     price: 25.99,
@@ -63,64 +38,32 @@ const bookInfo = [
   },
 ];
 
-// featured books
-// creates a new array without modifying existing array
 const featured = bookInfo.filter((book) => {
   return book.featured;
 });
 
-// titles of the books ONLY
-// creates new array without modifying existing array
 const titles = bookInfo.map((book) => {
   return { title: book.title, price: book.price};
 })
 
-// 2. *********** CART DATA ********* //
-// ARRAY FOR ADDING ITEMS TO THE CART
 const cart = [];
 
-//TODO: add setCart function
 const setCart = (book) => {
   cart.push(book);
 }
 
-// GETTER function for getting the cart array
 const getCart = () => {
   return cart;
 }
 
-//TODO: add emptyCart function
-
-
-// 3. ****** COMPONENTS ******** //
-
-// STORE
-// create/modify the store (reuseable function)
 const makeStore = (array, titles = false) => {
-  // Clear the DOM each time this function is run
   $("#store").html("");
-
-  // The forEach() method calls a function once for each element in an array, in order.
-  // Syntax: array.forEach(function(currentValue, index, arr), thisValue)
   array.forEach((item, index) => {
-
-    // The switch expression is evaluated once.
-    // The value of the expression is compared with the values of each case.
-    // If there is a match, the associated block of code is executed.
-    // If there is no match, the default code block is executed.
     switch(titles) {
-
-      // CHECKING TO SEE IF THE ARGUMENT 'TITLES' IS TRUE 
       case true:
         $("#store").removeClass('card-columns')
         $("#store").append(`<div>${item.title} | ${item.price}</div>`)
-
-        // When JavaScript reaches a break keyword, it breaks out of the switch block.
-        // This will stop the execution of inside the block.
-        // Note: If you omit the break statement, the next case will be executed even if the evaluation does not match the case.
         break;
-
-      // If there is no match, the default code block is executed.
       default:
         $("#store").addClass("card-columns");
         $("#store").append(
@@ -141,18 +84,10 @@ const makeStore = (array, titles = false) => {
               </div>`
         );
     }
-
-    // adding a dynmic click event to each "Add To Cart" button on the DOM
-    // it is passing the ARRAY argument and the INDEX argument to the function so that they can be used later. 
     addToCart(array, index);
-
-
   });
 };
-// TODO: Add empty store DOM function
 
-
-// CART
 const makeCart = () => {
   $("#cart").html(` 
     <div class="modal fade" id="buy-modal" tabindex="-1" role="dialog" aria-labelledby="buy-modalLabel" aria-hidden="true">
@@ -164,7 +99,6 @@ const makeCart = () => {
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-
           <div class="cart-items">
             <table class="table table-hover">
               <thead>
@@ -177,8 +111,6 @@ const makeCart = () => {
               <tbody></tbody>
             </table>
           </div>
-
-
           <div class="modal-body">
             <b>Your total is: $${cartTotal().toFixed(2)}</b>
             <div id="error-message" style="color: red;"></div>
@@ -202,8 +134,6 @@ const makeCart = () => {
           <button class="btn btn-danger" data-toggle="modal" data-target="#buy-modal" id="checkout">Checkout</button>
       </div>`
     );
-
-    //TODO: ADD EVENT LISTENER To modal "Charge It" button AFTER BUTTON IS ON THE DOM
     $('#charge-it').click(() => {
       const ccNum = $('#credit-card').val();
       chargeIt(ccNum);
@@ -211,18 +141,12 @@ const makeCart = () => {
 
     showCartItems();
 }
-// Add the item to the cart array AND update the DOM cart 
+
 const addToCart = (array, index) => {
-  
-  // getting the specific dynamically set ID on the button
   const cartButton = $(`#cart-add-${index}`);
 
-  // adding an click event listener to the button above
   cartButton.on('click', () => {
-    // passing the arguments to add to cart so that they can be used in the function that adds the item to the cart array and build the DOM element
-  
     setCart(array[index]);
-    // refresh the cart on the addition of a new item
     makeCart();
   })
 }
@@ -251,7 +175,6 @@ const showCartItems = () => {
   })
 }
 
-//add cartTotal function
 const cartTotal = () => {
   const myCart = getCart();
   const total = myCart.reduce((a, cartItem) => {return a + cartItem.price;}, 0);
@@ -259,7 +182,6 @@ const cartTotal = () => {
   return total;
 }
 
-//TODO: chargeIt function
 const chargeIt = (ccNum) => {
   if (ccNum === "") {
     $('#error-message').html("Please enter a credit card number");
@@ -279,28 +201,18 @@ const emptyCart = () => {
   cart.length = 0;
 }
 
-// NAVIGATION
 const navigationEvents = () => {
-
-  // "All Books" link in nav click event
   $("#all-books").on("click", () => {
     makeStore(bookInfo);
   });
 
-  // "Featured Books" link in nav click event
   $("#featured-books").on("click", () => {
     makeStore(featured);
   });
 
-  // "List of Titles" link in nav click event
   $("#titles").on("click", () => {
     makeStore(titles, true)
   });
-
-  //TODO: Add search functionality
-  // as the user types, searches through array of objects
-  // returns the items that match
-  // if no matches, clear DOM and provide a message that reads "No Items"
 
   $('#search').keyup((e) => {
     const searchValue = $('#search').val().toLowerCase();
@@ -328,8 +240,6 @@ const emptyStore = () => {
   $('#store').html("<h1>No Items with that title.</h1>");
 }
 
-
-// Start the program
 const init = () => {
   navigationEvents();
   makeStore(bookInfo);
