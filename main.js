@@ -80,6 +80,9 @@ const titles = bookInfo.map((book) => {
 const cart = [];
 
 //TODO: add setCart function
+const setCart = (book) => {
+  cart.push(book);
+}
 
 // GETTER function for getting the cart array
 const getCart = () => {
@@ -91,7 +94,7 @@ const getCart = () => {
 
 // 3. ****** COMPONENTS ******** //
 
-// FIXME: STORE
+// STORE
 // create/modify the store (reuseable function)
 const makeStore = (array, titles = false) => {
   // Clear the DOM each time this function is run
@@ -142,14 +145,14 @@ const makeStore = (array, titles = false) => {
     // adding a dynmic click event to each "Add To Cart" button on the DOM
     // it is passing the ARRAY argument and the INDEX argument to the function so that they can be used later. 
     addToCart(array, index);
+
+
   });
 };
 // TODO: Add empty store DOM function
 
 
-// FIXME: CART
-// TODO: Walk through breaking this function from the setter
-// create/updates the cart
+// CART
 const makeCart = () => {
   $("#cart").html(` 
     <div class="modal fade" id="buy-modal" tabindex="-1" role="dialog" aria-labelledby="buy-modalLabel" aria-hidden="true">
@@ -161,8 +164,23 @@ const makeCart = () => {
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
+
+          <div class="cart-items">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">Title</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Price</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+
           <div class="modal-body">
-       
+            <b>Your total is: $${cartTotal().toFixed(2)}</b>
             <div id="error-message" style="color: red;"></div>
             <input class="form-control mr-sm-2" id="credit-card" type="number" placeholder="Enter Credit Card Number" aria-label="Credit Card">
           </div>
@@ -179,13 +197,19 @@ const makeCart = () => {
         <h3>My Cart</h3>
         <div id="cart-thumb"></div>
         <div id="cart-price">
-          <div>$${getCart().reduce((a, cartItem) => {return a + cartItem.price;}, 0).toFixed(2)}</div>
+          <div>$${cartTotal().toFixed(2)}</div>
         </div>
           <button class="btn btn-danger" data-toggle="modal" data-target="#buy-modal" id="checkout">Checkout</button>
       </div>`
     );
 
     //TODO: ADD EVENT LISTENER To modal "Charge It" button AFTER BUTTON IS ON THE DOM
+    $('#charge-it').click(() => {
+      const ccNum = $('#credit-card').val();
+      chargeIt(ccNum);
+    })
+
+    showCartItems();
 }
 // Add the item to the cart array AND update the DOM cart 
 const addToCart = (array, index) => {
@@ -195,17 +219,65 @@ const addToCart = (array, index) => {
 
   // adding an click event listener to the button above
   cartButton.on('click', () => {
-    console.log("clicked")
     // passing the arguments to add to cart so that they can be used in the function that adds the item to the cart array and build the DOM element
-    //TODO: Update this to use a setter function
-    cart.push(array[index]);
+  
+    setCart(array[index]);
     // refresh the cart on the addition of a new item
     makeCart();
   })
 }
 
-//TODO: add cartTotal function
+const showCartItems = () => {
+
+  let obj = {};
+
+  getCart().forEach((item) => {
+    if (item.title in obj) {
+      obj[item.title].quantity++;
+      obj[item.title].price += item.price;
+    } else {
+      obj[item.title] = { quantity: 1, price: item.price }
+    }
+  });
+
+  Object.keys(obj).map((title) => {
+    $("tbody").append(
+      `<tr>
+        <td>${title}</td>
+        <td>${obj[title].quantity}</td>
+        <td>${obj[title].price.toFixed(2)}</td>
+      </tr>`
+    )
+  })
+}
+
+//add cartTotal function
+const cartTotal = () => {
+  const myCart = getCart();
+  const total = myCart.reduce((a, cartItem) => {return a + cartItem.price;}, 0);
+
+  return total;
+}
+
 //TODO: chargeIt function
+const chargeIt = (ccNum) => {
+  if (ccNum === "") {
+    $('#error-message').html("Please enter a credit card number");
+  } else {
+    emptyCart();
+    $(".modal-backdrop").remove();
+    $("#buy-modal").modal("hide");
+
+    $("#cart").html(
+      `<h2 style="margin-top: 100px;">Thank you for your order.</h2>
+      <p>Your credit card number was ${ccNum} has been charged.</p>`
+    )
+  }
+}
+
+const emptyCart = () => {
+  cart.length = 0;
+}
 
 // NAVIGATION
 const navigationEvents = () => {
@@ -229,7 +301,32 @@ const navigationEvents = () => {
   // as the user types, searches through array of objects
   // returns the items that match
   // if no matches, clear DOM and provide a message that reads "No Items"
+
+  $('#search').keyup((e) => {
+    const searchValue = $('#search').val().toLowerCase();
+
+    const searches = bookInfo.filter((book) => {
+      return book.title.toLowerCase().includes(searchValue);
+    })
+
+    console.log(searches);
+    if (searches.length === 0) {
+      emptyStore();
+    } else {
+      makeStore(searches);
+    }
+
+    if (e.keyCode === 13) {
+      $('#search').val("");
+    }
+
+  })
 };
+
+const emptyStore = () => {
+  $("#store").removeClass('card-columns');
+  $('#store').html("<h1>No Items with that title.</h1>");
+}
 
 
 // Start the program
