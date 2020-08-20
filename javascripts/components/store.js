@@ -1,4 +1,4 @@
-import { addToCart } from './cart.js';
+import { addToCart } from './makeCart.js';
 
 const makeStore = (array, titles = false) => {
   $("#store").html("");
