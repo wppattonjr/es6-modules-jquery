@@ -1,4 +1,4 @@
-import { addToCart } from './makeCart.js';
+import { addToCart } from './../components/makeCartAndAddCart.js';
 
 const makeStore = (array, titles = false) => {
   $("#store").html("");
@@ -37,4 +37,4 @@ const emptyStore = () => {
   $("#store").html("<h1>No Items with that title.</h1>");
 };
 
-export { makeStore, emptyStore }
+export { makeStore, emptyStore };

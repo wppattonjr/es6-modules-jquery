@@ -1,12 +1,12 @@
-import { getCart } from './../helpers/data/cartData.js';
+import { getCart } from './../helpers/data/cartData.js'
 
 const cartTotal = () => {
-    const myCart = getCart();
-    const total = myCart.reduce((a, cartItem) => {
-      return a + cartItem.price;
-    }, 0);
-  
-    return total;
-  };
+  const myCart = getCart();
+  const total = myCart.reduce((a, cartItem) => {
+    return a + cartItem.price;
+  }, 0);
 
-  export { cartTotal }
+  return total;
+};
+
+export { cartTotal }
